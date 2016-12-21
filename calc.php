@@ -7,6 +7,7 @@
     <body>
 
     <form name = "form" action = "calc.php" method = "post">
+        半角で数値を入力して下さい。<br>
        <input type ="text" name ="txtA" >
          <select name = "四則演算">
              <option value = "+">＋</option>
@@ -17,36 +18,47 @@
 
             <input type ="text" name ="txtB" > =　？
             <input type ="submit" value ="計算結果">
-            <input type = "reset" value ="クリア">
     </form>
 <?php
-if(isset($_POST["txtA"]) && isset($_POST["txtB"])) {
-    $a = $_POST['txtA'];
-    $b = $_POST['txtB'];
-    $ope = $_POST['四則演算'];
-
-    switch ($ope) {
-        case "+":
-            $answer = $a + $b;
-            break;
-        case "－":
-            $answer = $a - $b;
-            break;
-        case "×":
-            $answer = $a * $b;
-            break;
-        case "÷":
-            $answer = $a / $b;
-            break;
-        default:
-            break;
+    if (isset($_POST["txtA"]) && isset($_POST["txtB"]))
+    {
+        if (is_numeric($_POST["txtA"]) && is_numeric($_POST["txtB"]))
+        {
+            $a = $_POST['txtA'];
+            $b = $_POST['txtB'];
+            $a = mb_convert_kana($a, "ra");
+            $b = mb_convert_kana($b, "ra");
+            $ope = $_POST['四則演算'];
+            switch ($ope)
+            {
+                case "+":
+                    $answer = $a + $b;
+                    break;
+                case "－":
+                    $answer = $a - $b;
+                    break;
+                case "×":
+                    $answer = $a * $b;
+                    break;
+                case "÷":
+                    if ($_POST["txtB"] != 0) {
+                        $answer = $a / $b;
+                    } else {
+                        print"0で割ってはいけません。";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            print ($a . "" . $ope . "" . $b . "=" . $answer);
+        }
     }
-
-    print ($a . "" . $ope . "" . $b . "=" . $answer);
-
-}
+    else{
+        $answer = "";
+        print "";
+    }
 ?>
-
+    <a href ="#" onclick = "history.back(); return false;"> 戻る</a>
 </body>
 </html>
 

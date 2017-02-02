@@ -29,7 +29,7 @@ $db = getDb();
 
         $pdo = new PDO('mysql:host=127.0.0.1;dbname=board1;charset=utf8', 'root', '');
         $sql = $pdo->prepare('insert into post values(null, ?, ?)');
-    if ($sql->execute([$_REQUEST['personal_name'], $_REQUEST['contents']])) {
+    if ($sql->execute(array($_REQUEST['personal_name'], $_REQUEST['contents']))) {
         echo '投稿に成功しました。';
     } else {
         echo '投稿に失敗しました。';

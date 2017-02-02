@@ -16,8 +16,8 @@
 </html>
 
 <?php
-require_once '../result.php';
-require_once '../DbManager.php';
+require_once './result.php';
+require_once './DbManager.php';
 $db = getDb();
     if (isset($_POST['personal_name']) && ($_POST['contents'])) {
         $personal_name = $_POST['personal_name'];

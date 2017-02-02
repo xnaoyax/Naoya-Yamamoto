@@ -1,6 +1,6 @@
 <?php
-require_once 'c:\xampp\htdocs/Encode.php';
-require_once 'c:\xampp\htdocs/DbManager.php';
+require_once '../Encode.php';
+require_once '../DbManager.php';
 ?>
 <html>
     <head>

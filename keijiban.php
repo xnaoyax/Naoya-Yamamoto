@@ -21,19 +21,16 @@ require_once './Encode.php';
 require_once './DbManager.php';
 require_once './lastInsertId.php';
 
-$personal_name = $_POST['personal_name'];
-$contents = $_POST['contents'];
-if (!($_POST['personal_name'] === NULL && $_POST['contents']=== NULL)) {
-    if ($_POST['personal_name'] === "" && $_POST['contents'] === "") {
+if (isset($_POST['personal_name'], $_POST['contents'])) {
+    if ($_POST['personal_name'] === "" && $_POST['contents']=== "") {
         echo "未入力の項目があります。";
+    } elseif ($_POST['personal_name'] === "" || $_POST['contents']=== "") {
+        echo "名前か本文を入力して投稿して下さい。";
     } else {
         getData();
     }
-        }else {
-//    終了の意味
-       exit;
-    }
-    ?>
+}
+?>
 
 
 <table border="2">

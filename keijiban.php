@@ -1,3 +1,9 @@
+<?php
+require_once './Encode.php';
+require_once './DbManager.php';
+require_once './insert.php';
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,19 +19,15 @@
     本文<textarea name = "contents" cols = "40" rows = "8" maxlength="320"></textarea><br><br>
     <input type = "submit" name = "submit" value = "投稿">
 </form>
-　　</body>
-</html>
 
 <?php
-require_once './Encode.php';
-require_once './DbManager.php';
-require_once './lastInsertId.php';
-
 if (isset($_POST['personal_name'], $_POST['contents'])) {
     if ($_POST['personal_name'] === "" && $_POST['contents']=== "") {
-        echo "未入力の項目があります。";
-    } elseif ($_POST['personal_name'] === "" || $_POST['contents']=== "") {
-        echo "名前か本文を入力して投稿して下さい。";
+        echo "名前と本文の両方を入力して下さい。";
+    } elseif ($_POST['personal_name'] === "") {
+        echo "名前を入力して投稿して下さい。";
+    } elseif ($_POST['contents']=== "") {
+        echo "本文を入力して投稿して下さい。";
     } else {
         getData();
     }
@@ -34,9 +36,9 @@ if (isset($_POST['personal_name'], $_POST['contents'])) {
 
 
 <table border="2">
-        <tr>
-            <th>ID</th><th>投稿者</th><th>内容</th>
-        </tr>
+    <tr>
+        <th>ID</th><th>投稿者</th><th>内容</th>
+    </tr>
     <?php
     try {
         $db =getDb();
@@ -46,18 +48,21 @@ if (isset($_POST['personal_name'], $_POST['contents'])) {
         $stt->execute();
 //        レコードを連想配列の形式で結果内容を順に出力
         while($row = $stt->fetch(PDO::FETCH_ASSOC)) {
-     ?>
+            ?>
             <tr>
                 <td><?php e($row['id']) ?></td>
                 <td><?php e($row['name']) ?></td>
                 <td><?php e($row['contents']) ?></td>
             </tr>
-     <?php
+            <?php
         }
         $db = null;
     } catch(PDOException $e) {
         die("エラーメッセージ:{$e->getMessage()}");
     }
 
-?>
+    ?>
 </table>
+　　</body>
+</html>
+

@@ -13,10 +13,10 @@ require_once './insert.php';
 　　<body>
 <h1>掲示板</h1>
 <p>名前、メッセージを入力して投稿して下さい。</p>
-<p>名前は11文字以内、メッセージは320文字以内で入力してください。</p>
+<p>名前は11文字以内、メッセージは120文字以内で入力してください。</p>
 <form method = "POST" action = "<?php print($_SERVER['PHP_SELF']) ?>">
     名前<input type = "text" name = "personal_name" maxlength= "11"><br><br>
-    本文<textarea name = "contents" cols = "40" rows = "8" maxlength="320"></textarea><br><br>
+    本文<textarea name = "contents" cols = "30" rows = "4" maxlength="120"></textarea><br><br>
     <input type = "submit" name = "submit" value = "投稿">
 </form>
 
@@ -29,7 +29,15 @@ if (isset($_POST['personal_name'], $_POST['contents'])) {
     } elseif ($_POST['contents']=== "") {
         echo "本文を入力して投稿して下さい。";
     } else {
-        getData();
+        if (mb_strlen($_POST['personal_name']) > 11 && mb_strlen($_POST['contents']) > 120) {
+            echo "名前は11文字以内、本文は120文字以内で入力して下さい。";
+        } elseif (mb_strlen($_POST['personal_name']) > 11) {
+            echo "名前は11文字以内で入力して下さい。";
+        } elseif (mb_strlen($_POST['contents']) > 120) {
+            echo "本文は120文字以内で入力して下さい。";
+        } else {
+            getData();
+        }
     }
 }
 ?>
